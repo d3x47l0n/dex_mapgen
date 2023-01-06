@@ -1,12 +1,9 @@
-return {
-  
-  name = "overworld",
-  
-  noises = {
-    
-    ["overworld_terrain_2d"] = {
-      ["type"] = "2d",
-      np_vals = {
+local overworld = dex_mapgen.realm:new("overworld",-100,100)
+
+overworld:register_noise("terrain_2d",
+  {
+    ["type"] = "2d",
+    np_vals = {
         offset = 0,
         scale = 1,
         spread = {x=384, y=256, z=384},
@@ -15,31 +12,13 @@ return {
         persist = 0.63,
         lacunarity = 2.0,
         flags = ""
-      },
+    }
+  })
 
-      }
-    
-    },
-  
-  logic = function(noise_vals,x,y,z,seed,c)
-      local content = minetest.CONTENT_AIR
-      
-      --absolutely ugly, temporary
-      if y < 30 then
-        content = c.water
-      end
-      
-        if y == (noise_vals.overworld_terrain_2d * 50) then
-          content = c.grass
-        end
-        if y < (noise_vals.overworld_terrain_2d * 50) then
-          content = c.dirt
-        end
-        if y < (noise_vals.overworld_terrain_2d * 45) then
-          content = c.stone
-        end
-      
-      return content
-    end
-  
-  }
+function overworld:logic(n,x,y,z,seed,c)
+  local content = minetest.CONTENT_AIR
+  if y < 50 then content = c.stone end
+  return content
+end
+
+return overworld
