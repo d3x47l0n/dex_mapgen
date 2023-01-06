@@ -16,8 +16,7 @@ return {
         lacunarity = 2.0,
         flags = ""
       },
-      ymin = 1680,
-      ymax = 6680
+
       }
     
     },
