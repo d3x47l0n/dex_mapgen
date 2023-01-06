@@ -14,14 +14,19 @@ realms = {}
 
 --register noises
 minetest.log("action","register noises")
-for limit,realm in ipairs(realm_data) do
-  minetest.log("action",tostring(limit) .. " " .. dump(realm))
-  for noise_name,noise_settings in pairs(realm.noises) do
-    minetest.log("action",noise_name .. " " .. dump(noise_settings))
-    local converted_settings = noise_settings
-    converted_settings.ymin = converted_settings.ymin + noise_settings.ymin
-    converted_settings.ymin = converted_settings.ymax + noise_settings.ymax
-    luamap.register_noise(noise_name,noise_settings)
+for limit,realm_slot_data in ipairs(realm_limits) do
+  -- minetest.log("action",tostring(limit) .. " " .. dump(realm))
+  if realm_data[limit] then
+    for noise_name,noise_settings in pairs(realm_data[limit].noises) do
+      -- minetest.log("action",noise_name .. " " .. dump(noise_settings))
+      -- local converted_settings = noise_settings
+      noise_settings.ymin = realm_slot_data.ymin - 16
+      noise_settings.ymax = realm_slot_data.ymax + 16
+
+      -- converted_settings.ymin = converted_settings.ymin + noise_settings.ymin
+      -- converted_settings.ymin = converted_settings.ymax + noise_settings.ymax
+      luamap.register_noise(noise_name,noise_settings)
+    end
   end
 end
 
